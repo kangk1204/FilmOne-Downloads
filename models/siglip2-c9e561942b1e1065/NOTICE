@@ -1,0 +1,15 @@
+SigLIP 2 Base (Google)
+Source: https://huggingface.co/google/siglip2-base-patch16-224
+Revision: 75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2
+Model card license: Apache-2.0
+FilmOne exports the image encoder to ONNX, normalizes its output, and stores
+build-time text prototypes. Original weights are not fine-tuned. The rejected
+INT8 candidate is not shipped. No affiliation or endorsement is implied.
+
+YOLOX-Nano (Megvii)
+Copyright (c) 2021-2022 Megvii Inc.
+Source: https://github.com/Megvii-BaseDetection/YOLOX
+Official ONNX release: 0.1.1rc0/yolox_nano.onnx
+License: Apache-2.0
+The official ONNX weights are unmodified. FilmOne uses the person output to
+protect portrait color choices in mixed scenes. No identity recognition is used.
