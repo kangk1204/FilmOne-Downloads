@@ -4,13 +4,19 @@ English · [한국어](README.ko.md)
 
 Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.5.2 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.2/FilmOne-0.5.2-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.2)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.5.3 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.3/FilmOne-0.5.3-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.3)
 
 No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-<img src="assets/FilmOne-0.5.2-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.5.2 APK">
+<img src="assets/FilmOne-0.5.3-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.5.3 APK">
 
-[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.2/FilmOne-0.5.2-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.3/FilmOne-0.5.3-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+## High-resolution batch improvements in 0.5.3
+
+Batch processing skips unused preview encodes, releases decoded originals before AI inference, reuses transferred export buffers and avoids repeated color-coordinate calculations. Output pixels remain identical to 0.5.2. Native save failures clean staging files without deleting committed photos. Denoising keeps running while tiles make progress; engine failures pause the batch for recovery. High-resolution CPU noise reduction can still take many minutes per photo.
+
+A 108-photo browser workload (72 × 12 MP and 36 × 24 MP, upsampled performance fixtures) verified pause/reload/resume, storage failure/retry, unchanged originals and exactly 108 full-resolution outputs. This is a Windows ARM browser test, not a phone performance or image-quality benchmark. Scene-model setup still needs substantial memory; real Android/iPhone performance remains unverified.
 
 ## Model cache repair in 0.5.2
 
@@ -29,7 +35,7 @@ Fixed duplicate-name recovery, failed native folder selection, retry/cancellatio
 
 Single-photo editing, album saving, favorite films, personal looks and export sizes remain available. JPEG/PNG/WebP are supported; the native app also normalizes HEIC. Maximum input: 24 MP, 40 MB, 16,384px long edge. RAW, video, continuous folder watching and screen-off processing are not included.
 
-Package `app.filmone.editor` · version **0.5.2** · version code **7**. The interface is **Korean**; the website language switch changes documentation. The APK contains SigLIP2 FP32, YOLOX-Nano, NAFNet-32 and SCUNet for offline processing. Its size increased because the smaller scene model failed the quality-preservation comparison.
+Package `app.filmone.editor` · version **0.5.3** · version code **8**. The interface is **Korean**; the website language switch changes documentation. The APK contains SigLIP2 FP32, YOLOX-Nano, NAFNet-32 and SCUNet for offline processing. Its size increased because the smaller scene model failed the quality-preservation comparison.
 
 ## Preview status
 
@@ -37,10 +43,10 @@ This APK uses the same test signing certificate as previous FilmOne previews. It
 
 ## Verify
 
-The APK is **590,728,246 bytes**. [Download checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.2/FilmOne-0.5.2-preview.apk.sha256).
+The APK is **590,731,454 bytes**. [Download checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.3/FilmOne-0.5.3-preview.apk.sha256).
 
 ```text
-28a0fb00b0b15b878ac31eafdedfb217fde60929a6f611415583ad278864a9ec  FilmOne-0.5.2-preview.apk
+83cd6ec6a4f2a54f5a0b3cc03f1d14365dd08a9b342dd4c140ab81d736fddb60  FilmOne-0.5.3-preview.apk
 ```
 
 [0.4.0 archive and QR](https://kangk1204.github.io/FilmOne-Downloads/0.4.0/) · [0.3.0 archive and QR](https://kangk1204.github.io/FilmOne-Downloads/0.3.0/)
