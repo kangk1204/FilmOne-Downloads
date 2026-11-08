@@ -1,24 +1,37 @@
-# FilmOne 다운로드
+# FilmOne for Android
 
-FilmOne Android 테스트 APK 배포 페이지입니다. GitHub 로그인 없이 다운로드할 수 있습니다.
+English · [한국어](README.ko.md)
 
-## Android 0.3.0
+A small film lab for your photos. Choose a photo, apply an automatic film-inspired look, compare before and after, and save a new copy to your album. Photos are processed on your device.
 
-**[APK 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.3.0/FilmOne-0.3.0-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.3.0) · [SHA-256 파일](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.3.0/FilmOne-0.3.0-preview.apk.sha256)
+**[Open the download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.3.0 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.3.0/FilmOne-0.3.0-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.3.0)
 
-- ARM64 Android용, 최소 Android API 24 (Android 7.0).
-- 파일 크기: 214,738,636 bytes (약 215MB).
-- 사진 중심 편집 화면, 필름·조절·디테일 탭, 전후 비교, 색감 되돌리기·다시 실행, 원본 크기 JPG 저장.
-- NAFNet-32 및 SCUNet 모델이 내장되어 사진을 기기 안에서 처리합니다.
+No GitHub account or sign-in is required. This public repository distributes Android previews and documentation; the application source is maintained separately.
 
-휴대폰에서 APK를 다운로드한 뒤 파일을 열어 설치하세요. Android가 요청하면 해당 브라우저 또는 파일 관리자의 앱 설치를 허용하세요.
+## Scan to download
 
-테스트용 Android Debug 인증서로 서명되었으며 기존 0.2.0과 인증서가 같습니다. APK 서명·버전·내장 편집기/모델·16KB 정렬과 브라우저 편집 흐름 검증을 통과했습니다. 실제 Android 설치·시스템 사진 선택기·앨범 저장은 아직 실기기에서 검증하지 못했습니다.
+<img src="assets/FilmOne-0.3.0-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.3.0 for Android">
 
-SHA-256:
+[Download the QR code (PNG)](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.3.0/FilmOne-0.3.0-download-qr.png) · [Share the English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+The QR code opens the APK directly. The download page has an English / 한국어 switch and a share button.
+
+## Install
+
+1. Download the APK on an **ARM64 Android 7 or newer** phone (about **215 MB**).
+2. Open the downloaded file. If prompted, allow your browser to install apps, then tap **Install**.
+3. Open FilmOne, choose a photo, compare the edit, and save it to your photo album.
+
+The package is `app.filmone.editor`, version **0.3.0**, version code **3**. It includes the editor, film engine, NAFNet and SCUNet assets for offline editing. The interface in this APK is **Korean**; the page language switch does not change the app language.
+
+This is a preview signed with a test key, not a store release. It uses the same signing certificate as 0.2.0. Android may reject an update over a build signed with a different key. Physical Android device testing of selection, permissions, album saving, and processing speed is still pending; build and browser bridge checks do not replace it.
+
+## Verify the file
+
+[Download SHA-256 checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.3.0/FilmOne-0.3.0-preview.apk.sha256)
 
 ```text
-df3bb72bd2926a64f4c3d467f5fe20f615680915c4640e635e7137eea9c335f4
+df3bb72bd2926a64f4c3d467f5fe20f615680915c4640e635e7137eea9c335f4  FilmOne-0.3.0-preview.apk
 ```
 
-이 저장소는 설치 파일과 안내를 배포합니다. 앱에 포함된 외부 구성요소의 라이선스 고지는 앱의 안내 화면에서 확인할 수 있습니다.
+The APK is 214,738,636 bytes. An unauthenticated full download was verified against this checksum on November 8, 2026.
