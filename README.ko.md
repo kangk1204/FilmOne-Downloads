@@ -36,3 +36,7 @@ fa798d33647131a8ca87af51b4e9ca805dc80fb139dc9281f3546e547d34582f  FilmOne-0.5.0-
 ```
 
 [0.4.0 페이지·QR 보관함](https://kangk1204.github.io/FilmOne-Downloads/0.4.0/?lang=ko) · [0.3.0 페이지·QR 보관함](https://kangk1204.github.io/FilmOne-Downloads/0.3.0/?lang=ko)
+
+## 웹 모델 파일
+
+이 저장소는 웹앱에서 쓰는 Apache-2.0 [SigLIP2 장면 모델 조각](models/siglip2-c9e561942b1e1065/)도 제공합니다. 합계 약 372MB이므로 저장소 전체를 복제하면 용량이 커집니다. 사진 인식과 보정은 기기 안에서 실행하며 이 저장소로 사용자 사진을 보내지 않습니다. Android APK에는 모델이 내장되어 있어 별도로 받을 필요가 없습니다.
