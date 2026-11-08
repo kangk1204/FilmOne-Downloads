@@ -41,6 +41,8 @@ Package `app.filmone.editor` · version **0.5.3** · version code **8**. The int
 
 This APK uses the same test signing certificate as previous FilmOne previews. It is not a store release. A 100-photo browser batch, original preservation, pause/restart, output verification, ZIP fallback and native bridge contracts were tested. No physical Android/iPhone execution or phone speed/memory benchmark was available. Independent scene-quality targets have not been established; automatic choices can be changed per photo.
 
+One heavily contended private-browser run had an inconclusive final source-inventory check; its cause remains unresolved. A full retained-profile repeat and post-restart direct source/output hash checks passed.
+
 ## Verify
 
 The APK is **590,731,454 bytes**. [Download checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.3/FilmOne-0.5.3-preview.apk.sha256).
