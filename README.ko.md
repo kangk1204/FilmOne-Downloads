@@ -4,13 +4,17 @@
 
 사진 한 장 또는 폴더를 선택하면 사진마다 장면을 인식해 필름을 고르고, 필요한 경우에만 노이즈를 줄인 뒤 새 JPEG 사본으로 저장합니다. 사진은 기기 안에서 처리합니다.
 
-**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.5.1 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.1/FilmOne-0.5.1-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.1)
+**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.5.2 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.2/FilmOne-0.5.2-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.2)
 
 GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 파일과 문서만 공개하며 앱 소스는 비공개로 유지합니다.
 
-<img src="assets/FilmOne-0.5.1-download-qr.png" width="280" height="280" alt="FilmOne 0.5.1 APK 다운로드 QR">
+<img src="assets/FilmOne-0.5.2-download-qr.png" width="280" height="280" alt="FilmOne 0.5.2 APK 다운로드 QR">
 
-[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.1/FilmOne-0.5.1-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.2/FilmOne-0.5.2-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+
+## 0.5.2 모델 캐시 수정
+
+웹 모델을 IndexedDB에 저장해 Chromium 비공개 환경에서 재현된 메모리 부족 시 캐시 소실을 해결했습니다. 기존 캐시는 재다운로드 없이 이전하며, 저장 실패 시 이전 사본을 유지합니다. 손상된 모델만 지우도록 수정했습니다. APK에는 수정된 공통 편집기와 오프라인 모델이 포함됩니다. 브라우저 데이터 삭제나 비공개 세션 종료 시에는 저장 데이터가 없어집니다.
 
 ## 0.5.1 안정성 수정
 
@@ -25,7 +29,7 @@ GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 
 
 한 장 편집, 앨범 저장, 즐겨찾기, 개인 색감과 저장 크기 선택도 유지합니다. JPEG·PNG·WebP 및 모바일 HEIC 변환을 지원합니다. 입력은 2,400만 화소·40MB·긴 변 16,384px까지입니다. RAW·동영상·상시 폴더 감시·화면을 끈 상태의 연속 처리는 포함하지 않습니다.
 
-패키지 `app.filmone.editor` · 버전 **0.5.1** · 버전 코드 **6**. 앱 화면은 **한국어**이며 사이트 언어 전환은 안내 문서에 적용됩니다. 오프라인 모델 SigLIP2 FP32·YOLOX-Nano·NAFNet-32·SCUNet을 포함합니다. 작은 장면 모델이 품질 유지 비교 기준에 미달해 FP32 모델을 사용하므로 APK가 커졌습니다.
+패키지 `app.filmone.editor` · 버전 **0.5.2** · 버전 코드 **7**. 앱 화면은 **한국어**이며 사이트 언어 전환은 안내 문서에 적용됩니다. 오프라인 모델 SigLIP2 FP32·YOLOX-Nano·NAFNet-32·SCUNet을 포함합니다. 작은 장면 모델이 품질 유지 비교 기준에 미달해 FP32 모델을 사용하므로 APK가 커졌습니다.
 
 ## 미리보기 검증 범위
 
@@ -33,10 +37,10 @@ GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 
 
 ## 파일 검증
 
-파일 크기 **590,724,730바이트**. [체크섬 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.1/FilmOne-0.5.1-preview.apk.sha256).
+파일 크기 **590,728,246바이트**. [체크섬 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.2/FilmOne-0.5.2-preview.apk.sha256).
 
 ```text
-fef537ff77e7d4b101decade0f32e4bcbc9f50b681bf8ea38343243f4daf1c75  FilmOne-0.5.1-preview.apk
+28a0fb00b0b15b878ac31eafdedfb217fde60929a6f611415583ad278864a9ec  FilmOne-0.5.2-preview.apk
 ```
 
 [0.4.0 페이지·QR 보관함](https://kangk1204.github.io/FilmOne-Downloads/0.4.0/?lang=ko) · [0.3.0 페이지·QR 보관함](https://kangk1204.github.io/FilmOne-Downloads/0.3.0/?lang=ko)
