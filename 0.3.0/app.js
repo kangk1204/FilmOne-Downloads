@@ -1,0 +1,34 @@
+const copy = {
+  en: {},
+  ko: {
+    eyebrow:'주머니 속 작은 현상소',title:'조금 더 감성적으로.<br>조금 더 필름답게.',intro:'사진을 고르고, 어울리는 필름을 찾아보세요. 원본과 비교한 뒤 새 사본으로 저장합니다. 사진은 기기 안에서만 처리합니다.',downloadTitle:'FilmOne을 만나보세요.',download:'Android APK 다운로드',noLogin:'GitHub 로그인 없이 바로 다운로드합니다.',share:'이 페이지 공유',release:'릴리스 안내',scan:'휴대폰 카메라로 스캔하면 APK가 다운로드됩니다.',qrDownload:'QR 코드 저장 (PNG)',installTitle:'다운로드부터 첫 사진까지.',step1:'APK를 다운로드한 뒤 Android 휴대폰에서 파일을 여세요.',step2:'Android에서 요청하면 이 브라우저의 앱 설치를 허용하고 설치를 누르세요.',step3:'FilmOne에서 사진을 고르고 보정 전후를 비교한 뒤 앨범에 저장하세요.',preview:'테스트 키로 서명한 미리보기 버전입니다. Android 실기기 검증은 아직 진행하지 못했습니다.',languageNote:'0.3.0 앱 화면은 한국어입니다. 이 언어 전환은 다운로드 페이지에 적용됩니다.',checksumTitle:'다운로드 파일 검증',checksum:'체크섬 다운로드',readme:'사용 안내 읽기'
+  }
+};
+for (const node of document.querySelectorAll('[data-t]')) copy.en[node.dataset.t]=node.innerHTML;
+let language='en';
+function setLanguage(value,changeUrl=false){
+  language=value==='ko'?'ko':'en';
+  document.documentElement.lang=language;
+  document.title=language==='ko'?'FilmOne — Android 다운로드':'FilmOne — Download for Android';
+  document.querySelector('meta[name="description"]').content=language==='ko'?'QR 코드로 FilmOne 0.3.0 Android APK를 다운로드하세요. GitHub 로그인이 필요하지 않습니다.':'Download FilmOne for Android. Scan the QR code to install the 0.3.0 preview. No GitHub login required.';
+  for(const node of document.querySelectorAll('[data-t]'))node.innerHTML=copy[language][node.dataset.t];
+  for(const link of document.querySelectorAll('[data-lang]'))link.setAttribute('aria-current',String(link.dataset.lang===language));
+  document.getElementById('qr').alt=language==='ko'?'FilmOne 0.3.0 Android APK 직접 다운로드 QR 코드':'QR code linking directly to the FilmOne 0.3.0 Android APK';
+  document.getElementById('readme').href=language==='ko'?'https://github.com/kangk1204/FilmOne-Downloads/blob/main/0.3.0/README.ko.md':'https://github.com/kangk1204/FilmOne-Downloads/blob/main/0.3.0/README.md';
+  document.getElementById('share-status').textContent='';document.getElementById('share-fallback').hidden=true;
+  if(changeUrl){const url=new URL(location.href);url.searchParams.set('lang',language);history.replaceState(null,'',url);}
+}
+setLanguage(new URL(location.href).searchParams.get('lang'));
+for(const link of document.querySelectorAll('[data-lang]'))link.addEventListener('click',event=>{event.preventDefault();setLanguage(link.dataset.lang,true);});
+document.getElementById('share').addEventListener('click',async()=>{
+  const url=new URL(location.href);url.hash='';url.searchParams.set('lang',language);
+  const status=document.getElementById('share-status');
+  try{
+    if(navigator.share){await navigator.share({title:'FilmOne for Android',url:url.href});return;}
+    await navigator.clipboard.writeText(url.href);status.textContent=language==='ko'?'페이지 링크를 복사했어요.':'Page link copied.';
+  }catch(error){
+    if(error.name==='AbortError')return;
+    const input=document.getElementById('share-fallback');input.value=url.href;input.hidden=false;input.focus();input.select();
+    status.textContent=language==='ko'?'아래 링크를 복사해 공유하세요.':'Copy the link below to share.';
+  }
+});
