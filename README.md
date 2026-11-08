@@ -2,42 +2,37 @@
 
 English · [한국어](README.ko.md)
 
-A small film lab for your photos. Choose a photo, apply an automatic film-inspired look, compare before and after, and save a new copy to your album. Photos are processed on your device.
+Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Open the download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.4.0 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.4.0/FilmOne-0.4.0-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.4.0)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.5.0 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.0/FilmOne-0.5.0-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.0)
 
-No GitHub account or sign-in is required. This public repository distributes Android previews and documentation; the application source is maintained separately.
+No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-## Scan to download
+<img src="assets/FilmOne-0.5.0-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.5.0 APK">
 
-<img src="assets/FilmOne-0.4.0-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.4.0 for Android">
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.0/FilmOne-0.5.0-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
 
-[Download the QR code (PNG)](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.4.0/FilmOne-0.4.0-download-qr.png) · [Share the English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+## Install and use
 
-The QR code opens the APK directly. The download page has an English / 한국어 switch and a share button.
+1. Download the **591 MB** APK on an **ARM64 Android 7+** phone and open it. Allow browser installation if Android asks.
+2. Choose **폴더 자동 보정** (Folder Auto), then **폴더 선택** (Choose folder). Subfolders are included.
+3. Start automatic processing and keep the app open. It pauses when backgrounded; resume from the saved job if needed.
+4. Results go to `FilmOne/<job-id>/` inside the selected folder, preserving subfolders. Originals and existing results are kept. Compare a result or choose another film to create a new version.
 
-## Install
+Single-photo editing, album saving, favorite films, personal looks and export sizes remain available. JPEG/PNG/WebP are supported; the native app also normalizes HEIC. Maximum input: 24 MP, 40 MB, 16,384px long edge. RAW, video, continuous folder watching and screen-off processing are not included.
 
-1. Download the APK on an **ARM64 Android 7 or newer** phone (about **215 MB**).
-2. Open the downloaded file. If prompted, allow your browser to install apps, then tap **Install**.
-3. Open FilmOne, choose a photo, compare the edit, and save it to your photo album.
+Package `app.filmone.editor` · version **0.5.0** · version code **5**. The interface is **Korean**; the website language switch changes documentation. The APK contains SigLIP2 FP32, YOLOX-Nano, NAFNet-32 and SCUNet for offline processing. Its size increased because the smaller scene model failed the quality-preservation comparison.
 
-The package is `app.filmone.editor`, version **0.4.0**, version code **4**. It includes the editor, film engine, NAFNet and SCUNet assets for offline editing. The interface in this APK is **Korean**; the page language switch does not change the app language.
+## Preview status
 
-This is a preview signed with a test key, not a store release. It uses the same signing certificate as 0.2.0. Android may reject an update over a build signed with a different key. Physical Android device testing of selection, permissions, album saving, and processing speed is still pending; build and browser bridge checks do not replace it.
+This APK uses the same test signing certificate as previous FilmOne previews. It is not a store release. A 100-photo browser batch, original preservation, pause/restart, output verification, ZIP fallback and native bridge contracts were tested. No physical Android/iPhone execution or phone speed/memory benchmark was available. Independent scene-quality targets have not been established; automatic choices can be changed per photo.
 
-## Verify the file
+## Verify
 
-[Download SHA-256 checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.4.0/FilmOne-0.4.0-preview.apk.sha256)
+The APK is **590,718,382 bytes**. [Download checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.0/FilmOne-0.5.0-preview.apk.sha256).
 
 ```text
-86c5256b23f85ee8792eac48922e741d36a1fe8cf2c9632d555fe773b4794b38  FilmOne-0.4.0-preview.apk
+fa798d33647131a8ca87af51b4e9ca805dc80fb139dc9281f3546e547d34582f  FilmOne-0.5.0-preview.apk
 ```
 
-The APK is 214,758,408 bytes. An unauthenticated full download was verified against this checksum on November 8, 2026.
-
-## New in 0.4.0
-
-Favorite films, up to 20 personal looks saved on your device, film-family filters, individual-control reset, and original/2048px/1080px JPEG output. No account or photo upload. Saved looks are settings only; clearing app/browser data removes them.
-
-[0.3.0 download page and QR archive](https://kangk1204.github.io/FilmOne-Downloads/0.3.0/)
+[0.4.0 archive and QR](https://kangk1204.github.io/FilmOne-Downloads/0.4.0/) · [0.3.0 archive and QR](https://kangk1204.github.io/FilmOne-Downloads/0.3.0/)
