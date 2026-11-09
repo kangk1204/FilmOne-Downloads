@@ -4,13 +4,21 @@
 
 사진 한 장 또는 폴더를 선택하면 사진마다 장면을 인식해 필름을 고르고, 필요한 경우에만 노이즈를 줄인 뒤 새 JPEG 사본으로 저장합니다. 사진은 기기 안에서 처리합니다.
 
-**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.5.5 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.5/FilmOne-0.5.5-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.5)
+**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.5.6 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.6/FilmOne-0.5.6-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.6)
 
 GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 파일과 문서만 공개하며 앱 소스는 비공개로 유지합니다.
 
-<img src="assets/FilmOne-0.5.5-download-qr.png" width="280" height="280" alt="FilmOne 0.5.5 APK 다운로드 QR">
+<img src="assets/FilmOne-0.5.6-download-qr.png" width="280" height="280" alt="FilmOne 0.5.6 APK 다운로드 QR">
 
-[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.5/FilmOne-0.5.5-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.6/FilmOne-0.5.6-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+
+## 0.5.6 모바일 정책 통제 검증
+
+CPU 노이즈 제거의 입력 타일 버퍼를 재사용하고, 독립적으로 소유한 CPU 출력은 추가 복사 없이 전달합니다. FP32 가중치·타일 구조·원본 해상도·합성 순서와 모바일 사진별 모델 해제 정책을 유지합니다.
+
+격리된 Linux ARM64 CI에서 같은 12MP 사진과 실제 0.5.4 / 0.5.5 / 0.5.6 편집기를 ABC–CBA 순서로 각 2회 비교했습니다. 전체 처리 시간 중앙값은 각각 **745.49 / 719.49 / 720.72초**, 처리 단계 최대 전용 상주 메모리(USS) 표본의 중앙값은 **1237 / 925 / 940MiB**였습니다. 결과 JPEG 6개와 보정 설정이 정확히 일치했습니다. 사전 정의한 호스트 조건, 속도 유지(두 기준 버전 대비 5% 이내), 메모리 유지 기준을 통과했습니다. 브라우저는 CPU 한 코어, 측정 도구는 다른 코어를 사용하고 전체 시험에 4GiB cgroup 메모리 상한을 적용하고 스왑을 비활성화했습니다. USS는 공유 페이지와 파일 캐시를 제외한 전용 상주 메모리입니다. 브라우저·모델·사진 해시를 고정하고 매번 새 프로필을 사용했으며, 모든 실행에서 중단·새로고침·재개를 확인했습니다.
+
+아래의 이전 공용 PC 속도 저하 기록은 보존합니다. 호스트 부하가 섞인 관찰값이므로 모바일 정책 자체의 성능 저하 근거로 해석하지 않습니다. 소수 반복 VM 시험이며 실제 휴대폰 속도나 통계적 유의성을 입증하지 않습니다. 별도의 108장 회귀 시험과 노이즈 사진 3장 연속 처리에서 이전 결과와의 일치, 중단·재시작, 저장 실패 복구, 다음 사진 읽기 전 모델 해제를 확인했습니다. Android·iPhone 실기기 실행은 미검증입니다.
 
 ## 0.5.5 노이즈 제거 메모리 개선
 
@@ -49,7 +57,7 @@ Windows ARM/Edge에서 순서를 교차한 반복 시험 결과, 108장 배치 �
 
 한 장 편집, 앨범 저장, 즐겨찾기, 개인 색감과 저장 크기 선택도 유지합니다. JPEG·PNG·WebP 및 모바일 HEIC 변환을 지원합니다. 입력은 2,400만 화소·40MB·긴 변 16,384px까지입니다. RAW·동영상·상시 폴더 감시·화면을 끈 상태의 연속 처리는 포함하지 않습니다.
 
-패키지 `app.filmone.editor` · 버전 **0.5.5** · 버전 코드 **10**. 앱 화면은 **한국어**이며 사이트 언어 전환은 안내 문서에 적용됩니다. 오프라인 모델 SigLIP2 FP32·YOLOX-Nano·NAFNet-32·SCUNet을 포함합니다. 작은 장면 모델이 품질 유지 비교 기준에 미달해 FP32 모델을 사용하므로 APK가 커졌습니다.
+패키지 `app.filmone.editor` · 버전 **0.5.6** · 버전 코드 **11**. 앱 화면은 **한국어**이며 사이트 언어 전환은 안내 문서에 적용됩니다. 오프라인 모델 SigLIP2 FP32·YOLOX-Nano·NAFNet-32·SCUNet을 포함합니다. 작은 장면 모델이 품질 유지 비교 기준에 미달해 FP32 모델을 사용하므로 APK가 커졌습니다.
 
 ## 미리보기 검증 범위
 
@@ -59,10 +67,10 @@ Windows ARM/Edge에서 순서를 교차한 반복 시험 결과, 108장 배치 �
 
 ## 파일 검증
 
-파일 크기 **594,601,559바이트**. [체크섬 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.5/FilmOne-0.5.5-preview.apk.sha256).
+파일 크기 **594,603,419바이트**. [체크섬 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.6/FilmOne-0.5.6-preview.apk.sha256).
 
 ```text
-27e92aa73000d216b78701224d701b2391549b388e90df47a6f5075b871111f0  FilmOne-0.5.5-preview.apk
+f787bd5bb9342fa60cbd6281fd127074139ae535194c6a3211c5626babd8a9a9  FilmOne-0.5.6-preview.apk
 ```
 
 [0.4.0 페이지·QR 보관함](https://kangk1204.github.io/FilmOne-Downloads/0.4.0/?lang=ko) · [0.3.0 페이지·QR 보관함](https://kangk1204.github.io/FilmOne-Downloads/0.3.0/?lang=ko)
