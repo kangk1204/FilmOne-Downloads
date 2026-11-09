@@ -4,13 +4,21 @@ English · [한국어](README.ko.md)
 
 Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.5.4 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.4/FilmOne-0.5.4-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.4)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.5.5 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.5/FilmOne-0.5.5-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.5)
 
 No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-<img src="assets/FilmOne-0.5.4-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.5.4 APK">
+<img src="assets/FilmOne-0.5.5-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.5.5 APK">
 
-[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.4/FilmOne-0.5.4-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.5/FilmOne-0.5.5-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+## Lower denoising memory in 0.5.5
+
+CPU denoising uses a smaller dedicated runtime, reuses its owned full-resolution pixel buffer, and releases live models after each photo on mobile/low/unknown-memory devices. The single-photo editor also releases its model after completion. FP32 model weights, resolution, tile geometry and accumulation order are unchanged; eligible desktop CPU batches keep two workers.
+
+Repeated 12 MP Windows ARM/Edge tests (two runs per version/policy, ABBA order) measured processing-stage peak private commit of **3506 → 1440 MiB** with two desktop workers, and **1367 → 1045 MiB** under the mobile single-worker policy. Desktop end-to-end median, including cancellation/reload recovery, was **404.91 → 369.09 s**; the mobile policy was **623.65 → 771.73 s**. Host load and clock changed between runs, so these times do not isolate an application-only speed effect. All eight noisy outputs matched exactly; a further 108-photo regression preserved originals and passed storage-failure/pause/reload recovery. Private commit is not resident RAM. The mobile policy only reports 2 GiB/two cores on the same desktop; it is not a physical memory cap or a phone test.
+
+The original 12 MP mobile time-retention target was **not met**. A separately declared, shorter 1 MP ABBA comparison measured **79.85 → 71.12 s** and passed its host-comparability and time-retention conditions. This supports the smaller workload only; it does not replace the long-run result or establish phone speed. Three consecutive denoised photos also verified model termination before the next image decode.
 
 ## Batch recovery and performance in 0.5.4
 
@@ -34,14 +42,14 @@ Fixed duplicate-name recovery, failed native folder selection, retry/cancellatio
 
 ## Install and use
 
-1. Download the **591 MB** APK on an **ARM64 Android 7+** phone and open it. Allow browser installation if Android asks.
+1. Download the **595 MB** APK on an **ARM64 Android 7+** phone and open it. Allow browser installation if Android asks.
 2. Choose **폴더 자동 보정** (Folder Auto), then **폴더 선택** (Choose folder). Subfolders are included.
 3. Start automatic processing and keep the app open. It pauses when backgrounded; resume from the saved job if needed.
 4. Results go to `FilmOne/<job-id>/` inside the selected folder, preserving subfolders. Originals and existing results are kept. Compare a result or choose another film to create a new version.
 
 Single-photo editing, album saving, favorite films, personal looks and export sizes remain available. JPEG/PNG/WebP are supported; the native app also normalizes HEIC. Maximum input: 24 MP, 40 MB, 16,384px long edge. RAW, video, continuous folder watching and screen-off processing are not included.
 
-Package `app.filmone.editor` · version **0.5.4** · version code **9**. The interface is **Korean**; the website language switch changes documentation. The APK contains SigLIP2 FP32, YOLOX-Nano, NAFNet-32 and SCUNet for offline processing. Its size increased because the smaller scene model failed the quality-preservation comparison.
+Package `app.filmone.editor` · version **0.5.5** · version code **10**. The interface is **Korean**; the website language switch changes documentation. The APK contains SigLIP2 FP32, YOLOX-Nano, NAFNet-32 and SCUNet for offline processing. Its size increased because the smaller scene model failed the quality-preservation comparison.
 
 ## Preview status
 
@@ -51,10 +59,10 @@ The earlier missing-source check was reproduced without FilmOne: this Edge versi
 
 ## Verify
 
-The APK is **590,742,442 bytes**. [Download checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.4/FilmOne-0.5.4-preview.apk.sha256).
+The APK is **594,601,559 bytes**. [Download checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.5/FilmOne-0.5.5-preview.apk.sha256).
 
 ```text
-9a7f9bbdd5f4c5e509766d18f3e38984a260fe4470d93396e797a8f68c43f82d  FilmOne-0.5.4-preview.apk
+27e92aa73000d216b78701224d701b2391549b388e90df47a6f5075b871111f0  FilmOne-0.5.5-preview.apk
 ```
 
 [0.4.0 archive and QR](https://kangk1204.github.io/FilmOne-Downloads/0.4.0/) · [0.3.0 archive and QR](https://kangk1204.github.io/FilmOne-Downloads/0.3.0/)
