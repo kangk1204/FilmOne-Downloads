@@ -4,13 +4,27 @@
 
 사진 한 장 또는 폴더를 선택하면 사진마다 장면을 인식해 필름을 고르고, 필요한 경우에만 노이즈를 줄인 뒤 새 JPEG 사본으로 저장합니다. 사진은 기기 안에서 처리합니다.
 
-**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.5.8 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.8/FilmOne-0.5.8-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.8)
+**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.0 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.0/FilmOne-0.6.0-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.0)
 
 GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 파일과 문서만 공개하며 앱 소스는 비공개로 유지합니다.
 
-<img src="assets/FilmOne-0.5.8-download-qr.png" width="280" height="280" alt="FilmOne 0.5.8 APK 다운로드 QR">
+<img src="assets/FilmOne-0.6.0-download-qr.png" width="280" height="280" alt="FilmOne 0.6.0 APK 다운로드 QR">
 
-[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.8/FilmOne-0.5.8-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.0/FilmOne-0.6.0-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+
+## 0.6.0 GPU 노이즈 제거와 전체 작업 메모리 개선
+
+지원하는 하드웨어에서는 원래 NAFNet-32 FP32 가중치를 WebGL2에서 직접 실행하여 GPU 경로의 CPU ONNX 세션을 없앴습니다. 원본 해상도·256픽셀 타일·중첩·필름 선택·모바일 단일 작업 정책은 유지합니다. 시험한 모델의 GPU 텍스처 할당 상한은 192.7MiB이며 재사용합니다. 업로드 큐 제한·소유한 모델/변환 버퍼의 즉시 해제·Blob 직접 캐시·분할 해시로 중간 복사도 줄였습니다. GPU 초기화 미지원·실패 시 CPU를 사용하며, 문맥 손실이나 비정상 출력 시 GPU를 해제한 후 같은 원본 타일을 CPU로 다시 처리합니다.
+
+같은 Windows ARM64 / Adreno X1-45 PC와 Edge 157에서 고정된 0.5.8·0.6.0 편집기로 같은 12MP 합성 노이즈 사진을 ABBA 순서로 각 2회 처리했습니다. 전체 시간 중앙값은 **382.55 → 118.50초(69.0% 단축)**, 추론은 **359.89 → 88.15초**입니다. 전체 작업 최대 전용 커밋 메모리 표본은 **1875.22 → 1678.46MiB**, 같은 시점의 전용 커밋+GPU 커밋 합산 지표는 **1918.41 → 1738.68MiB(9.4% 감소)**였습니다. 합산 지표는 공유 매핑을 중복 계산할 수 있으며 실제 전체 RAM 사용량이 아닙니다. 고정 CPU 코어·4GiB 작업 상한·외부 CPU/GPU 부하·보정 측정 기준을 통과했습니다. 부하를 감시한 공용 PC 시험이며 휴대폰이나 완전히 격리된 GPU VM 시험은 아닙니다.
+
+추가로 정한 추론 구간의 전용 커밋+GPU 커밋 유지 목표(증가 5% 이내)는 **통과**이며 **1233.44 → 1280.85MiB**였습니다. 이 목표의 판정은 그대로 남깁니다. 이번 미리보기는 모든 신규 실행의 전체 최대 메모리가 모든 기준 실행보다 낮고, 추론 구간 합산값도 기존 전체 최대값보다 낮다는 별도 공개 기준으로 배포합니다.
+
+별도 Linux ARM64 CPU 대체 경로 ABBA 시험에서도 사전에 정한 속도 5% 이내 유지 기준을 통과했습니다. 전체 시간 **570.83 → 585.20초**, 전체 작업 최대 전용 상주 메모리 USS **1904.05 → 1637.97MiB**입니다. Windows GPU 시간과 Linux CPU 시간을 직접 비교하지 않습니다.
+
+선정 자료 40개와 고정 확인 자료 20개가 원래 수치 오차·PSNR·SSIM·디테일 보존 기준을 통과했습니다. GPU 실수 출력은 CPU와 비트 단위로 같지는 않으며, 수치적으로 불안정한 선정 스트레스 입력 2개는 원래 CPU 경로로 복구합니다. 전체 12MP 저장 JPEG 비교도 통과했습니다. 최종 빌드는 단위·경계 테스트 201개와 변경 경로의 브라우저·Sites·실제 GPU/모의 네이티브 연결 검사를 통과했습니다. 100장 폴더·저장 실패·손상 모델·중단/재시작·원본 보존을 검증했습니다.
+
+NPU 가속은 구현하지 않았습니다. 현재 호스트에는 사용 가능한 기본 WebGPU 어댑터와 WebNN이 없습니다. APK에 같은 편집기와 모델을 넣었으나 실제 Android·iPhone의 GPU 지원·속도·전체 RAM·발열·장시간 안정성은 아직 미검증입니다. 장면 모델 초기화에는 여전히 큰 메모리가 필요합니다. 화질 자료는 회귀 검증이며 독립적인 사진 품질이나 상용 앱과의 동등성을 입증하지 않습니다.
 
 ## 0.5.8 출력 보존 추론 최적화
 
@@ -72,14 +86,14 @@ Windows ARM/Edge에서 순서를 교차한 반복 시험 결과, 108장 배치 �
 
 ## 설치와 사용
 
-1. **ARM64 Android 7 이상** 휴대폰에서 약 **598 MB** APK를 내려받아 여세요. Android가 요청하면 브라우저의 앱 설치를 허용합니다.
+1. **ARM64 Android 7 이상** 휴대폰에서 약 **599 MB** APK를 내려받아 여세요. Android가 요청하면 브라우저의 앱 설치를 허용합니다.
 2. **폴더 자동 보정 → 폴더 선택**으로 들어갑니다. 하위 폴더도 포함합니다.
 3. 자동 보정을 시작하고 앱을 열어 두세요. 앱을 벗어나면 일시정지하며 저장된 작업을 불러와 이어갈 수 있습니다.
 4. 결과는 선택한 폴더 아래 `FilmOne/<작업 ID>/`에 하위 폴더 구조를 유지해 저장합니다. 원본과 기존 결과를 보존합니다. 결과별 전후 비교와 다른 필름으로 새 결과 저장을 지원합니다.
 
 한 장 편집, 앨범 저장, 즐겨찾기, 개인 색감과 저장 크기 선택도 유지합니다. JPEG·PNG·WebP 및 모바일 HEIC 변환을 지원합니다. 입력은 2,400만 화소·40MB·긴 변 16,384px까지입니다. RAW·동영상·상시 폴더 감시·화면을 끈 상태의 연속 처리는 포함하지 않습니다.
 
-패키지 `app.filmone.editor` · 버전 **0.5.8** · 버전 코드 **13**. 앱 화면은 **한국어**이며 사이트 언어 전환은 안내 문서에 적용됩니다. 오프라인 모델 SigLIP2 FP32·YOLOX-Nano·NAFNet-32·SCUNet을 포함합니다. 작은 장면 모델이 품질 유지 비교 기준에 미달해 FP32 모델을 사용하므로 APK가 커졌습니다.
+패키지 `app.filmone.editor` · 버전 **0.6.0** · 버전 코드 **14**. 앱 화면은 **한국어**이며 사이트 언어 전환은 안내 문서에 적용됩니다. 오프라인 모델 SigLIP2 FP32·YOLOX-Nano·NAFNet-32·SCUNet을 포함합니다. 작은 장면 모델이 품질 유지 비교 기준에 미달해 FP32 모델을 사용하므로 APK가 커졌습니다.
 
 ## 미리보기 검증 범위
 
@@ -89,10 +103,10 @@ Windows ARM/Edge에서 순서를 교차한 반복 시험 결과, 108장 배치 �
 
 ## 파일 검증
 
-파일 크기 **598,420,872바이트**. [체크섬 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.8/FilmOne-0.5.8-preview.apk.sha256).
+파일 크기 **598,640,716바이트**. [체크섬 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.0/FilmOne-0.6.0-preview.apk.sha256).
 
 ```text
-e1ff320af8f3a766016d4a3adcb67385d772be94f23b7681cbf8a6939e4e124d  FilmOne-0.5.8-preview.apk
+7e2374b9c0e6299311fbae22e2c6a87f08684e83c0ede16f299202041343b059  FilmOne-0.6.0-preview.apk
 ```
 
 [0.4.0 페이지·QR 보관함](https://kangk1204.github.io/FilmOne-Downloads/0.4.0/?lang=ko) · [0.3.0 페이지·QR 보관함](https://kangk1204.github.io/FilmOne-Downloads/0.3.0/?lang=ko)
