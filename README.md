@@ -4,13 +4,23 @@ English · [한국어](README.ko.md)
 
 Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.5.6 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.6/FilmOne-0.5.6-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.6)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.5.7 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.7/FilmOne-0.5.7-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.5.7)
 
 No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-<img src="assets/FilmOne-0.5.6-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.5.6 APK">
+<img src="assets/FilmOne-0.5.7-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.5.7 APK">
 
-[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.6/FilmOne-0.5.6-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.7/FilmOne-0.5.7-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+## Recovery review and inference verification in 0.5.7
+
+Folder recovery resolves native source paths again, checks original bytes before trusting completed items, preserves results on permission loss, and resumes after checkpoint/transport/engine failures. Invalid individual filenames and unsupported replacement photos do not stop later photos. WebView failure releases incomplete transfers and the screen wake request.
+
+NAFNet-32 retains its FP32 weights, original resolution, tile geometry and one-worker mobile memory policy. A separately verified ARM64 runtime uses four-row register blocking and selective fused multiply-add. Unsupported devices or failed optional initialization use the original runtime before transferring the source pixels.
+
+On one isolated Linux ARM64 VM, the frozen 0.5.6 / 0.5.7 editors ran in ABBA order, twice each, on the same 12 MP noisy image. Median inference time: **690.03 → 592.51 seconds (14.1% lower)**. Complete-flow time: **720.88 → 620.99 seconds**. Processing-stage sampled peak private resident memory (USS): **943.26 → 941.91 MiB**. Host-comparability, complete-flow improvement and memory-retention gates passed. **The predeclared 15% inference-improvement goal was not met**; its failed acceptance result is retained. This preview ships the measured partial improvement together with recovery fixes, without revising the original experiment thresholds. Full JPEG comparisons and all 60 frozen quality fixtures passed their predeclared limits; same-version repeat JPEGs matched exactly. A separate 108-photo workload and three consecutive denoised photos verified recovery, unchanged originals and worker release.
+
+These are small repeated VM measurements, not phone speed or statistical-significance claims. The scene evaluation and noise-decision sample do not establish the planned independent quality targets. Physical Android/iPhone permissions, thermals and long-run stability remain unverified; commercial quality equivalence is unproven.
 
 ## Controlled mobile-policy verification in 0.5.6
 
@@ -50,14 +60,14 @@ Fixed duplicate-name recovery, failed native folder selection, retry/cancellatio
 
 ## Install and use
 
-1. Download the **595 MB** APK on an **ARM64 Android 7+** phone and open it. Allow browser installation if Android asks.
+1. Download the **598 MB** APK on an **ARM64 Android 7+** phone and open it. Allow browser installation if Android asks.
 2. Choose **폴더 자동 보정** (Folder Auto), then **폴더 선택** (Choose folder). Subfolders are included.
 3. Start automatic processing and keep the app open. It pauses when backgrounded; resume from the saved job if needed.
 4. Results go to `FilmOne/<job-id>/` inside the selected folder, preserving subfolders. Originals and existing results are kept. Compare a result or choose another film to create a new version.
 
 Single-photo editing, album saving, favorite films, personal looks and export sizes remain available. JPEG/PNG/WebP are supported; the native app also normalizes HEIC. Maximum input: 24 MP, 40 MB, 16,384px long edge. RAW, video, continuous folder watching and screen-off processing are not included.
 
-Package `app.filmone.editor` · version **0.5.6** · version code **11**. The interface is **Korean**; the website language switch changes documentation. The APK contains SigLIP2 FP32, YOLOX-Nano, NAFNet-32 and SCUNet for offline processing. Its size increased because the smaller scene model failed the quality-preservation comparison.
+Package `app.filmone.editor` · version **0.5.7** · version code **12**. The interface is **Korean**; the website language switch changes documentation. The APK contains SigLIP2 FP32, YOLOX-Nano, NAFNet-32 and SCUNet for offline processing. Its size increased because the smaller scene model failed the quality-preservation comparison.
 
 ## Preview status
 
@@ -67,10 +77,10 @@ The earlier missing-source check was reproduced without FilmOne: this Edge versi
 
 ## Verify
 
-The APK is **594,603,419 bytes**. [Download checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.6/FilmOne-0.5.6-preview.apk.sha256).
+The APK is **598,419,700 bytes**. [Download checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.5.7/FilmOne-0.5.7-preview.apk.sha256).
 
 ```text
-f787bd5bb9342fa60cbd6281fd127074139ae535194c6a3211c5626babd8a9a9  FilmOne-0.5.6-preview.apk
+2261d606fdb1a3c8e8a2e3d4cd19c2006622465bcb0df671ff26de74d913f3ec  FilmOne-0.5.7-preview.apk
 ```
 
 [0.4.0 archive and QR](https://kangk1204.github.io/FilmOne-Downloads/0.4.0/) · [0.3.0 archive and QR](https://kangk1204.github.io/FilmOne-Downloads/0.3.0/)
