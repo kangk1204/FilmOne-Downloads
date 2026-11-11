@@ -4,13 +4,27 @@ English · [한국어](README.ko.md)
 
 Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.2 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.2/FilmOne-0.6.2-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.2)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.3 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.3/FilmOne-0.6.3-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.3)
 
 No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-<img src="assets/FilmOne-0.6.2-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.2 APK">
+<img src="assets/FilmOne-0.6.3-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.3 APK">
 
-[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.2/FilmOne-0.6.2-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.3/FilmOne-0.6.3-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+## 12 MP denoising in 0.6.3
+
+FilmOne packs the original FP32 weights in GPU access order, shares compiled projection shaders across channel widths and releases the 111 MiB model buffer before the numerical self-test. The GPU uses 64-row projection strips.
+
+On Windows ARM64 with an Adreno X1-45, the same 4000 × 3000 noisy test image was processed twice per version in A–B–B–A order with a cold cache. Ordinary saves took 58.05 / 54.79 s in 0.6.2 and **52.47 / 50.16 s** in 0.6.3. An interrupted save, including page reload, resume and writing the JPEG, took 58.18 / 58.18 s and **56.90 / 53.56 s**, respectively. Median ordinary-save GPU inference took 39.8 → 37.6 s. The ordinary-save goal is 30 s and the recovery goal is 60 s.
+
+During ordinary processing, sampled peak browser private commit was 878.9 → 787.3 MiB. The simultaneous private plus GPU commitment was 1222.9 → 1207.2 MiB. This sum may double-count shared allocations. The 60 photo and stress fixtures passed the CPU reference tolerances. Timings were measured on an active PC. Physical phone timing is unmeasured.
+
+At least one series exceeded the preset host-load or calibration limits. The figures describe these runs on this desktop.
+
+An additional A–B–B–A ordinary save series recorded 54.87 / 55.10 s for 0.6.2 and 50.49 / 50.27 s for 0.6.3. Host criteria passed.
+
+An additional A–B–B–A restart and save series recorded 57.43 / 62.00 s for 0.6.2 and 53.95 / 53.57 s for 0.6.3. Host criteria were exceeded.
 
 ## 12 MP processing in 0.6.2
 
@@ -113,7 +127,7 @@ Fixed duplicate-name recovery, failed native folder selection, retry/cancellatio
 
 Single-photo editing, album saving, favorite films, personal looks and export sizes remain available. JPEG/PNG/WebP are supported; the native app also normalizes HEIC. Maximum input: 24 MP, 40 MB, 16,384px long edge. RAW, video, continuous folder watching and screen-off processing are not included.
 
-Package `app.filmone.editor` · version **0.6.2** · version code **16**. The interface is **Korean**; the website language switch changes documentation. The APK contains SigLIP2 FP32, YOLOX-Nano, NAFNet-32 and SCUNet for offline processing. Its size increased because the smaller scene model failed the quality-preservation comparison.
+Package `app.filmone.editor` · version **0.6.3** · version code **17**. The interface is **Korean**; the website language switch changes documentation. The APK contains SigLIP2 FP32, YOLOX-Nano, NAFNet-32 and SCUNet for offline processing. Its size increased because the smaller scene model failed the quality-preservation comparison.
 
 ## Preview status
 
@@ -123,10 +137,10 @@ The earlier missing-source check was reproduced without FilmOne: this Edge versi
 
 ## Verify
 
-The APK is **598,715,992 bytes**. [Download checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.2/FilmOne-0.6.2-preview.apk.sha256).
+The APK is **598,717,208 bytes**. [Download checksum](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.3/FilmOne-0.6.3-preview.apk.sha256).
 
 ```text
-756e59fa5c580863369371f7acd9ad18b56eab5c1a43bf9bcb4cd79c41bee7b5  FilmOne-0.6.2-preview.apk
+a3ea05a0016bc2a884e7c717898a180ff7984961a959425c5036df8b7cf5a700  FilmOne-0.6.3-preview.apk
 ```
 
 [0.4.0 archive and QR](https://kangk1204.github.io/FilmOne-Downloads/0.4.0/) · [0.3.0 archive and QR](https://kangk1204.github.io/FilmOne-Downloads/0.3.0/)
