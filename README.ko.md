@@ -4,13 +4,23 @@
 
 사진 한 장 또는 폴더를 선택하면 사진마다 장면을 인식해 필름을 고르고, 필요한 경우에만 노이즈를 줄인 뒤 새 JPEG 사본으로 저장합니다. 사진은 기기 안에서 처리합니다.
 
-**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.3 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.3/FilmOne-0.6.3-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.3)
+**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.4 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.4/FilmOne-0.6.4-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.4)
 
 GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 파일과 문서만 공개하며 앱 소스는 비공개로 유지합니다.
 
-<img src="assets/FilmOne-0.6.3-download-qr.png" width="280" height="280" alt="FilmOne 0.6.3 APK 다운로드 QR">
+<img src="assets/FilmOne-0.6.4-download-qr.png" width="280" height="280" alt="FilmOne 0.6.4 APK 다운로드 QR">
 
-[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.3/FilmOne-0.6.3-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.4/FilmOne-0.6.4-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+
+## 0.6.4의 12MP 노이즈 제거
+
+큰 합성곱 가중치와 중간 특징을 FP16으로 저장하고 FP32로 연산합니다. 정규화 통계·주의 가중치·바이어스·잔차 경로는 FP32로 유지합니다. 원본 해상도와 192픽셀 타일 간격을 사용하며, 혼합 정밀도 호환성 검사가 실패하면 FP32 GPU로 한 번 재시도한 뒤 기존 CPU 복구 경로를 사용합니다.
+
+같은 Windows ARM64 Adreno X1-45에서 동일한 4000 × 3000 노이즈 사진·모델·빈 브라우저 캐시·CPU 고정·메모리 정책으로 네 번 교차 측정했습니다. 일반 저장은 0.6.3에서 51.38 / 49.92초, 0.6.4에서 **43.57 / 43.55초**였습니다. GPU 추론 중앙값은 37.35 → 30.51초였습니다. 30초 목표는 달성하지 못했습니다.
+
+보정 단계의 브라우저 전용 커밋은 786.27 → 697.67MiB였습니다. 같은 시점의 전용 커밋과 GPU 커밋을 더한 지표는 1208.66 → 1032.43MiB였으며, 공유 할당을 중복 계산할 수 있습니다. 호스트 부하 일치 기준은 통과했습니다.
+
+별도로 둔 실제 노이즈 사진 20장을 포함해 화질 평가 60건이 기준을 통과했습니다. 혼합 정밀도 사용으로 픽셀 값은 달라집니다. 실제 노이즈 사진의 PSNR 손실 허용치는 평균 0.05dB·최대 0.15dB이며, SSIM 손실 허용치는 평균 0.0005·최대 0.002입니다. GPU에서 생성한 호환성 검사 기준은 기존의 엄격한 기기 오차 한도를 사용합니다. Android·iPhone 실기기의 속도와 메모리는 미검증입니다.
 
 ## 0.6.3의 12MP 노이즈 제거
 

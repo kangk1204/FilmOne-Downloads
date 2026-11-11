@@ -4,13 +4,23 @@ English · [한국어](README.ko.md)
 
 Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.3 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.3/FilmOne-0.6.3-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.3)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.4 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.4/FilmOne-0.6.4-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.4)
 
 No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-<img src="assets/FilmOne-0.6.3-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.3 APK">
+<img src="assets/FilmOne-0.6.4-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.4 APK">
 
-[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.3/FilmOne-0.6.3-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.4/FilmOne-0.6.4-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+## 12 MP denoising in 0.6.4
+
+FilmOne uses FP32 arithmetic with selective FP16 storage for large convolution weights and intermediate features. Normalization statistics, attention, biases and residual state retain FP32 storage. Input resolution and the 192-pixel tile step are preserved. An incompatible mixed-storage device probe triggers one FP32 GPU retry before the existing CPU recovery path.
+
+On the same Windows ARM64 Adreno X1-45, four alternating runs used the same 4000 × 3000 seeded noisy image, model assets, empty browser caches, CPU affinity and memory policy. Ordinary saves took 51.38 / 49.92 seconds in 0.6.3 and **43.57 / 43.55 seconds** in 0.6.4. Median GPU inference was 37.35 → 30.51 seconds. The 30-second goal was missed.
+
+Processing-stage browser private commitment was 786.27 → 697.67 MiB. The simultaneous private plus GPU commitment proxy was 1208.66 → 1032.43 MiB. It can double-count shared allocations. Host matching criteria passed.
+
+Sixty paired quality fixtures passed the declared photographic gates, including a separate 20-photo real-noise confirmation set. Mixed storage changes pixel values. Real-noise quality limits allow mean PSNR loss up to 0.05 dB and worst loss up to 0.15 dB, with mean SSIM loss up to 0.0005 and worst loss up to 0.002. The GPU-derived compatibility probe keeps the original strict device tolerances. Physical Android and iPhone performance is unmeasured.
 
 ## 12 MP denoising in 0.6.3
 
