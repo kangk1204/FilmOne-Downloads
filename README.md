@@ -4,13 +4,23 @@ English · [한국어](README.ko.md)
 
 Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.4 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.4/FilmOne-0.6.4-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.4)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.5 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.5/FilmOne-0.6.5-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.5)
 
 No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-<img src="assets/FilmOne-0.6.4-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.4 APK">
+<img src="assets/FilmOne-0.6.5-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.5 APK">
 
-[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.4/FilmOne-0.6.4-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.5/FilmOne-0.6.5-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+## 12 MP denoising in 0.6.5
+
+The GPU pointwise projection uses eight input groups per weight block and a constant address divisor. This reduces shader address work while keeping the model, FP32 arithmetic, selective FP16 storage, original resolution and 192-pixel tile step unchanged. Strict mixed-storage compatibility checks, FP32 GPU retry and CPU recovery remain enabled.
+
+Four alternating runs on the same Windows ARM64 Adreno X1-45 used the same 4000 × 3000 seeded noisy image, model assets, empty browser caches, CPU affinity and memory policy. Ordinary saves took 43.84 / 44.06 seconds in 0.6.4 and **41.33 / 41.37 seconds** in 0.6.5. Median GPU inference was 31.07 → 28.56 seconds. External desktop GPU load exceeded the predeclared limit; these are repeated observations under the current desktop load, not a fully qualified low-load speed claim. The failed gates and the first sequence are retained in the report. The 30-second goal was missed.
+
+Processing-stage browser private commitment was 699.32 → 697.45 MiB. Requested GPU texture storage was 128.64 → 128.64 MiB. The simultaneous private plus GPU commitment proxy was 1031.91 → 1031.55 MiB; it can double-count shared allocations.
+
+All 60 photographic and stress fixtures produced bit-identical raw outputs and the same CPU recovery decisions as 0.6.4, including a separate 20-photo real-noise confirmation set. Full-photo benchmark JPEGs were also identical. Physical Android and iPhone speed, memory and folder permissions remain unmeasured.
 
 ## 12 MP denoising in 0.6.4
 

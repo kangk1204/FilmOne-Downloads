@@ -4,13 +4,23 @@
 
 사진 한 장 또는 폴더를 선택하면 사진마다 장면을 인식해 필름을 고르고, 필요한 경우에만 노이즈를 줄인 뒤 새 JPEG 사본으로 저장합니다. 사진은 기기 안에서 처리합니다.
 
-**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.4 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.4/FilmOne-0.6.4-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.4)
+**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.5 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.5/FilmOne-0.6.5-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.5)
 
 GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 파일과 문서만 공개하며 앱 소스는 비공개로 유지합니다.
 
-<img src="assets/FilmOne-0.6.4-download-qr.png" width="280" height="280" alt="FilmOne 0.6.4 APK 다운로드 QR">
+<img src="assets/FilmOne-0.6.5-download-qr.png" width="280" height="280" alt="FilmOne 0.6.5 APK 다운로드 QR">
 
-[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.4/FilmOne-0.6.4-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.5/FilmOne-0.6.5-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+
+## 0.6.5의 12MP 노이즈 제거
+
+GPU 점별 합성곱의 가중치를 입력 8그룹 단위로 묶고 주소 계산의 나눗수를 상수로 바꿨습니다. 모델·FP32 연산·선택적 FP16 저장·원본 해상도·192픽셀 타일 간격은 유지합니다. 엄격한 혼합 정밀도 호환성 검사, FP32 GPU 재시도와 CPU 복구도 유지합니다.
+
+같은 Windows ARM64 Adreno X1-45에서 동일한 4000 × 3000 노이즈 사진·모델·빈 브라우저 캐시·CPU 고정·메모리 정책으로 네 번 교차 측정했습니다. 일반 저장은 0.6.4에서 43.84 / 44.06초, 0.6.5에서 **41.33 / 41.37초**였습니다. GPU 추론 중앙값은 31.07 → 28.56초였습니다. 외부 앱의 GPU 부하가 사전 기준을 초과했습니다. 현재 데스크톱 부하에서 반복 관측한 결과이며, 낮은 부하에서 검증된 속도 개선으로 확정할 수 없습니다. 실패한 기준과 첫 측정도 보고서에 보존했습니다. 30초 목표는 달성하지 못했습니다.
+
+보정 단계의 브라우저 전용 커밋은 699.32 → 697.45MiB, 요청한 GPU 텍스처 저장량은 128.64 → 128.64MiB였습니다. 같은 시점의 전용 커밋과 GPU 커밋을 더한 지표는 1031.91 → 1031.55MiB였으며, 공유 할당을 중복 계산할 수 있습니다.
+
+별도로 둔 실제 노이즈 사진 20장을 포함해 화질·극단값 평가 60건의 원시 출력과 CPU 복구 여부가 0.6.4와 완전히 일치했습니다. 전체 사진 벤치마크 JPEG도 동일했습니다. Android·iPhone 실기기의 속도·메모리·폴더 권한은 미검증입니다.
 
 ## 0.6.4의 12MP 노이즈 제거
 
