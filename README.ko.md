@@ -4,13 +4,25 @@
 
 사진 한 장 또는 폴더를 선택하면 사진마다 장면을 인식해 필름을 고르고, 필요한 경우에만 노이즈를 줄인 뒤 새 JPEG 사본으로 저장합니다. 사진은 기기 안에서 처리합니다.
 
-**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.6 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.6/FilmOne-0.6.6-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.6)
+**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.7 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.7/FilmOne-0.6.7-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.7)
 
 GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 파일과 문서만 공개하며 앱 소스는 비공개로 유지합니다.
 
-<img src="assets/FilmOne-0.6.6-download-qr.png" width="280" height="280" alt="FilmOne 0.6.6 APK 다운로드 QR">
+<img src="assets/FilmOne-0.6.7-download-qr.png" width="280" height="280" alt="FilmOne 0.6.7 APK 다운로드 QR">
 
-[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.6/FilmOne-0.6.6-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.7/FilmOne-0.6.7-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+
+## 0.6.7 네이티브 NPU 미리보기
+
+Android 8.1 이상에 기기 내 Qualcomm QNN 경로를 추가했고 Android 7은 GPU/CPU 처리를 유지합니다. 하드웨어·수치 자체 검사를 통과한 기기에서 사용하고, 지원하지 않으면 GPU/CPU로 전환합니다. NAFNet 채널 분할을 고정하고, 네이티브 경로의 입력 중심 이동에 맞춰 첫 합성곱 바이어스·경계 패딩을 보정하며 마지막 입력 합산은 FP32로 수행합니다. 공통 FP32 가중치 컨테이너·해상도·타일 겹침·필름 레시피는 유지합니다. 전송만 묶고 신경망은 한 세션에서 한 타일씩 실행합니다.
+
+같은 Windows ARM64 PC에서 같은 4000×3000 노이즈 입력을 네 번 교차 저장했습니다. 기존 GPU는 39.50 / 39.08초, NPU 호스트 어댑터는 **25.55 / 25.38초**였습니다. NPU 실행 모델 캐시 재사용을 확인했고 매 반복은 새 네이티브 프로세스로 시작했습니다. 실행 모델 캐시를 재사용한 두 번 모두 30초 이내였습니다. 같은 신경망 그래프를 사용한 직전 빌드의 첫 컴파일 포함 측정은 31.08 / 29.85초였으며, 최종 코덱 반복값과 구분합니다. 두 버전 모두 같은 두 CPU 코어와 4GiB 작업 커밋 한도를 사용했습니다. 외부 부하 검증은 통과하지 못했으므로 현재 데스크톱 부하에서의 관측값이며, 낮은 부하나 휴대폰 속도를 보장하는 결과는 아닙니다.
+
+전체 브라우저·네이티브 전용 커밋 중앙값은 899.76 → 882.65MiB, 보정 단계는 716.62 → 784.17MiB였습니다. 보정 중 같은 시점의 전용 커밋+WDDM 회계상 합계는 1045.59 → 894.27MiB입니다. 전용 커밋은 상주 RAM과 다르며 합계는 공유 매핑을 중복 계산할 수 있습니다. NPU 펌웨어·DSP 메모리는 직접 측정하지 못했습니다. CPU 작업 최고 커밋에는 제어·프록시 프로세스가 포함되지만 브라우저 전용 샘플에는 제외됩니다. 호스트 어댑터의 HTTP 전달은 두 작업 코어 외에 예약된 제어 코어를 사용합니다.
+
+NPU와 웹 GPU 모두 기존 선택용 40개·확인용 20개 회귀 자료의 PSNR·SSIM·경계·평탄 영역 기준을 통과했습니다. 12MP 완성 JPEG도 기존 기준을 통과했습니다(MAE 0.164/255, 최대 5/255). FP32 비트 동일성을 주장하지 않으며 불안정한 스트레스 타일은 기존 전체 FP32 모델로 복구합니다. 고정 회귀 자료는 일반 장면이나 미적 품질의 독립적 검증이 아닙니다. 앞선 실패 시제품과 느려진 전송 실험도 기록에 남겼습니다.
+
+웹은 현재 환경에서 GPU/CPU 경로를 사용하며 웹 전체 처리 30초는 미입증입니다. Android 실기기 설치·권한·실행·속도·발열·장시간 처리와 iPhone 실행은 미검증입니다. APK는 네이티브 모듈과 모델을 포함한 미리보기입니다. 웹의 NAFNet 컨테이너는 처음 한 번 새로 내려받으며 변경하지 않은 자산의 해시는 유지합니다.
 
 ## 0.6.6 장면 분석 메모리 개선
 

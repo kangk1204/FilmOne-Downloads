@@ -4,13 +4,25 @@ English · [한국어](README.ko.md)
 
 Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.6 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.6/FilmOne-0.6.6-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.6)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.7 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.7/FilmOne-0.6.7-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.7)
 
 No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-<img src="assets/FilmOne-0.6.6-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.6 APK">
+<img src="assets/FilmOne-0.6.7-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.7 APK">
 
-[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.6/FilmOne-0.6.6-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.7/FilmOne-0.6.7-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+## Native NPU preview in 0.6.7
+
+Android 8.1+ can use the optional on-device Qualcomm QNN backend after strict hardware and numerical self-tests. Android 7 keeps the existing GPU/CPU path. Unsupported NPU devices fall back automatically. The NAFNet gate graph uses fixed channel splits. The native delegate centers its input with matching first-convolution bias/border compensation and restores the global skip in FP32. The original shared FP32 weights container, photo resolution, tile overlap and film recipe remain unchanged. Transfer groups run one neural tile at a time, with one model session; this is not neural tensor batching.
+
+On one Windows ARM64 PC, four alternating saves of the same 4000×3000 noisy input took 39.50 / 39.08 seconds on the released GPU path and **25.55 / 25.38 seconds on the native NPU host adapter**. Native compiled-context cache reuse was verified; each repeat started a fresh native process. Both cached-context repeats were below 30 seconds. A preceding build with the same neural graph took 31.08 / 29.85 seconds including first-use compilation; those are separate setup observations, not final-codec repeats. Browser/model work used the same two-CPU affinity and 4GiB job cap. External-load qualification failed, so these are observations under the current desktop load, not a qualified quiet-host or phone speed claim.
+
+Median sampled browser-plus-native private commitment was 899.76 → 882.65MiB for the whole flow and 716.62 → 784.17MiB during processing. The same-sample private-plus-WDDM accounting proxy during processing was 1045.59 → 894.27MiB. Private commitment is not resident RAM; the proxy can double-count shared mappings. Native firmware/DSP memory is not directly measured. The CPU job high-water mark includes the benchmark controller/proxy; the sampled browser/private series excludes that controller. The adapter uses a reserved controller CPU for HTTP forwarding in addition to the two browser/model CPUs.
+
+All 40 selection and 20 confirmation regression fixtures pass the unchanged PSNR, SSIM, edge and flat-region gates on both native NPU and web GPU paths. The full 12MP JPEG comparison passes the existing limits (MAE 0.164/255, maximum 5/255). Outputs are approximate, not FP32 bit equivalence; ill-conditioned stress tiles recover through the unchanged full FP32 model. These frozen fixtures do not establish population-level or aesthetic quality. The earlier NPU prototype and slower transport experiments remain recorded as rejected results.
+
+The standalone web build continues to use its GPU/CPU capability path; this host has no default browser NPU bridge, and the web 30-second target remains unproven. Android permissions, installation/runtime, speed, thermal behavior and long batches on physical phones, plus iPhone execution, remain unverified. The APK includes the native module and models; it is a preview. The changed NAFNet container needs one initial web model refresh; unchanged assets keep their existing hashes.
 
 ## Lower scene-analysis memory in 0.6.6
 
