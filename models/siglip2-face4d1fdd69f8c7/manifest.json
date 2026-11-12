@@ -1,0 +1,119 @@
+{
+  "base": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/",
+  "model": "google/siglip2-base-patch16-224",
+  "revision": "75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2",
+  "license": "Apache-2.0",
+  "format": "ORT",
+  "bytes": 369546304,
+  "sha256": "face4d1fdd69f8c71ab769c551680249cdc6dd012358832fc3ab1bf360766056",
+  "parts": [
+    {
+      "file": "siglip2-scene.ort.part0",
+      "bytes": 20971520,
+      "sha256": "0ec883f673a1857682090731a9bb665408e61bfa7bf5b3e4744a12f0e93fa5d7",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part0"
+    },
+    {
+      "file": "siglip2-scene.ort.part1",
+      "bytes": 20971520,
+      "sha256": "a03d03bd15174e16f7f2b0ce967bc7c7d834678f1401099b91c1ac406a2d20cd",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part1"
+    },
+    {
+      "file": "siglip2-scene.ort.part2",
+      "bytes": 20971520,
+      "sha256": "9e831143012e4a89c3a0ab6ed7ce784e2284269688b933a06ab65db0f88acffc",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part2"
+    },
+    {
+      "file": "siglip2-scene.ort.part3",
+      "bytes": 20971520,
+      "sha256": "e4c49638d5924905757d636e9fcbb60deabc5b60fde884979d8da11fb37b4764",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part3"
+    },
+    {
+      "file": "siglip2-scene.ort.part4",
+      "bytes": 20971520,
+      "sha256": "c5db11fafb8cd1e4cf17051eae64e9cf323f836e10ee29957e2ca59aa816294e",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part4"
+    },
+    {
+      "file": "siglip2-scene.ort.part5",
+      "bytes": 20971520,
+      "sha256": "5a94bf1c310ba448491ab16ce694a0402bf87b93ebd10eb26bc7f68810ec133d",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part5"
+    },
+    {
+      "file": "siglip2-scene.ort.part6",
+      "bytes": 20971520,
+      "sha256": "6bc7793ed1ec6254ad40b2513a4efea37a812622a9fbf1dc3e87d322bd582c5c",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part6"
+    },
+    {
+      "file": "siglip2-scene.ort.part7",
+      "bytes": 20971520,
+      "sha256": "4b754f9e82229ad03784e3a4178735c24e925c87f30719dc4165faf6a9f1b84c",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part7"
+    },
+    {
+      "file": "siglip2-scene.ort.part8",
+      "bytes": 20971520,
+      "sha256": "8b7cf9ca88bbf705a4431cf18a3d60321f5610bc788e9a4f0ecc5504109f0a4d",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part8"
+    },
+    {
+      "file": "siglip2-scene.ort.part9",
+      "bytes": 20971520,
+      "sha256": "c3d9b9e21932e8d9eabf0ba453f17dcb69c04d6b791471425424d1c1d39ab652",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part9"
+    },
+    {
+      "file": "siglip2-scene.ort.part10",
+      "bytes": 20971520,
+      "sha256": "c0b3ec5a234938a7b56c80111b3e03cecb955e6537d97e7359c437b4a5afaba8",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part10"
+    },
+    {
+      "file": "siglip2-scene.ort.part11",
+      "bytes": 20971520,
+      "sha256": "d14788215da63a4f5e7f5bc8751bee5addd72caba3ffa67268754d57d4eebd8d",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part11"
+    },
+    {
+      "file": "siglip2-scene.ort.part12",
+      "bytes": 20971520,
+      "sha256": "6d8dae9d85325fa7be2693d0b71843cf7ac241c2690564d892a43decf59e3e72",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part12"
+    },
+    {
+      "file": "siglip2-scene.ort.part13",
+      "bytes": 20971520,
+      "sha256": "33f47362e4ae947a977ab29f40d5515b41be5683b469b0407e5c70e8c05d9763",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part13"
+    },
+    {
+      "file": "siglip2-scene.ort.part14",
+      "bytes": 20971520,
+      "sha256": "40a24dbcb864596bc67625689270d957f5926805b77a100865850cae3e754836",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part14"
+    },
+    {
+      "file": "siglip2-scene.ort.part15",
+      "bytes": 20971520,
+      "sha256": "c2c69cbc04106ea1fc071e6017087ab90583a223102da6836b8ed68f47b5bf5f",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part15"
+    },
+    {
+      "file": "siglip2-scene.ort.part16",
+      "bytes": 20971520,
+      "sha256": "ef594014a69de834f8705f68472720111d2db302d80ec1818270ce6a032bbd73",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part16"
+    },
+    {
+      "file": "siglip2-scene.ort.part17",
+      "bytes": 13030464,
+      "sha256": "e8276fcba578e4698dcadab4b2f0988930b2a924a621f359e71499f7d36b9788",
+      "externalUrl": "https://kangk1204.github.io/FilmOne-Downloads/models/siglip2-face4d1fdd69f8c7/siglip2-scene.ort.part17"
+    }
+  ]
+}
