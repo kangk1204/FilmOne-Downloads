@@ -4,13 +4,25 @@ English · [한국어](README.ko.md)
 
 Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.5 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.5/FilmOne-0.6.5-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.5)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.6 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.6/FilmOne-0.6.6-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.6)
 
 No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-<img src="assets/FilmOne-0.6.5-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.5 APK">
+<img src="assets/FilmOne-0.6.6-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.6 APK">
 
-[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.5/FilmOne-0.6.5-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.6/FilmOne-0.6.6-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+## Lower scene-analysis memory in 0.6.6
+
+The same FP32 scene model uses a portable ORT serialization. Initializers share its backing allocation, which the pinned CPU loader now retains until session destruction. Native/mobile assets and web integrity checks use the new serialized file; denoising weights, GPU kernels, tile overlap and film rendering are unchanged.
+
+Four alternating 12MP saves on the same Windows ARM64 Adreno X1-45 took 43.51 / 43.34 seconds in 0.6.5 and 42.69 / 42.78 seconds in 0.6.6. Median whole-run browser private commitment was **1218.36 → 832.01 MiB**; processing private commitment was 694.96 → 694.86 MiB. Median GPU inference was 29.42 → 29.41 seconds. The host qualification gate was exceeded; these are repeated observations under current desktop load, not a fully qualified low-load performance claim. The original 30-second goal remains unmet. Private commitment is not resident phone RAM, and two-second samples can miss brief peaks.
+
+Scene choices matched on all 320 frozen photo cases, with unchanged policy. This preserves existing behavior; it does not establish independent eight-class semantic accuracy or aesthetic film quality. CPU buffer lifetime, actual browser scene inference, cache reuse, storage failure/retry and native bridge contracts were checked. Physical Android/iPhone permissions, speed, thermal behavior and long-run stability remain unverified.
+
+A further disjoint, human-annotation-derived subject check selected people in 93 of 100 person-containing images. The 95% person-recall point target was missed. Box-derived subject labels do not establish holistic scene or film quality, and this set was not used to tune the policy.
+
+An actual native Windows NPU experiment was fast per tile but failed the existing photographic quality gates, so NPU inference is not enabled in this release. The new scene serialization requires one initial model download on the web; unchanged runtime and denoising assets retain their hashes. The APK includes the models for offline processing.
 
 ## 12 MP denoising in 0.6.5
 

@@ -4,13 +4,25 @@
 
 사진 한 장 또는 폴더를 선택하면 사진마다 장면을 인식해 필름을 고르고, 필요한 경우에만 노이즈를 줄인 뒤 새 JPEG 사본으로 저장합니다. 사진은 기기 안에서 처리합니다.
 
-**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.5 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.5/FilmOne-0.6.5-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.5)
+**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.6 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.6/FilmOne-0.6.6-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.6)
 
 GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 파일과 문서만 공개하며 앱 소스는 비공개로 유지합니다.
 
-<img src="assets/FilmOne-0.6.5-download-qr.png" width="280" height="280" alt="FilmOne 0.6.5 APK 다운로드 QR">
+<img src="assets/FilmOne-0.6.6-download-qr.png" width="280" height="280" alt="FilmOne 0.6.6 APK 다운로드 QR">
 
-[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.5/FilmOne-0.6.5-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.6/FilmOne-0.6.6-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+
+## 0.6.6 장면 분석 메모리 개선
+
+같은 FP32 장면 모델을 ORT 형식으로 저장하고, 실행기가 모델 버퍼를 세션 해제까지 보관하도록 바꿨습니다. 초기화 텐서가 이 버퍼를 공유해 중복 할당을 줄입니다. 웹 무결성 검사와 모바일 내장 자산도 새 파일을 사용합니다. 노이즈 제거 가중치·GPU 커널·타일 겹침·필름 렌더링은 유지합니다.
+
+같은 Windows ARM64 Adreno X1-45에서 네 번 교차 측정한 12MP 일반 저장은 0.6.5에서 43.51 / 43.34초, 0.6.6에서 42.69 / 42.78초였습니다. 전체 브라우저 전용 커밋 중앙값은 **1218.36 → 832.01MiB**, 보정 단계는 694.96 → 694.86MiB였습니다. GPU 추론 중앙값은 29.42 → 29.41초였습니다. 호스트 부하 검증 기준을 벗어났으므로 현재 부하에서의 반복 관측값이며, 낮은 부하에서 검증된 성능으로 확정할 수 없습니다. 기존 30초 목표는 미달성입니다. 전용 커밋은 휴대폰 상주 RAM과 다르며 2초 간격 측정은 짧은 피크를 놓칠 수 있습니다.
+
+고정 사진 320장의 장면 선택이 모두 유지됐습니다. 정책은 그대로이며 독립적인 8개 장면 정확도나 필름의 미적 품질을 입증하는 결과는 아닙니다. CPU 버퍼 수명, 실제 브라우저 장면 추론, 캐시 재사용, 저장 실패·재시도, 네이티브 연결을 검사했습니다. Android·iPhone 실기기의 권한·속도·발열·장시간 안정성은 미검증입니다.
+
+추가로 기존 자료와 겹치지 않는 사람 주석 기반 주제별 자료를 검사했습니다. 인물이 포함된 100장 중 93장을 인물로 선택해 인물 재현율 95% 점추정 목표에는 미달했습니다. 객체 상자에서 정한 주제 라벨은 전체 장면이나 필름의 미적 품질을 확정하지 않으며, 이 자료로 정책을 조정하지 않았습니다.
+
+Windows NPU에서 실제 모델 실행은 빨랐지만 기존 화질 기준에 미달해 이번 앱에는 적용하지 않았습니다. 웹에서는 새 장면 모델을 처음 한 번 내려받아야 하며, 변경하지 않은 실행기와 노이즈 제거 모델은 기존 해시를 유지합니다. APK에는 오프라인 처리를 위한 모델이 포함됩니다.
 
 ## 0.6.5의 12MP 노이즈 제거
 
