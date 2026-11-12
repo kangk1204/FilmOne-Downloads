@@ -4,13 +4,23 @@
 
 사진 한 장 또는 폴더를 선택하면 사진마다 장면을 인식해 필름을 고르고, 필요한 경우에만 노이즈를 줄인 뒤 새 JPEG 사본으로 저장합니다. 사진은 기기 안에서 처리합니다.
 
-**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.7 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.7/FilmOne-0.6.7-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.7)
+**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.8 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.8/FilmOne-0.6.8-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.8)
 
 GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 파일과 문서만 공개하며 앱 소스는 비공개로 유지합니다.
 
-<img src="assets/FilmOne-0.6.7-download-qr.png" width="280" height="280" alt="FilmOne 0.6.7 APK 다운로드 QR">
+<img src="assets/FilmOne-0.6.8-download-qr.png" width="280" height="280" alt="FilmOne 0.6.8 APK 다운로드 QR">
 
-[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.7/FilmOne-0.6.7-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.8/FilmOne-0.6.8-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+
+## 0.6.8: 노이즈 제거 버퍼 회수와 GPU 바이트 입력
+
+**일반 웹의 30초 목표는 아직 미달입니다.** 같은 원본 해상도 4000×3000 노이즈 사진·JPEG 95를 ABBA 순서로 비교했습니다. 웹 GPU 저장은 0.6.7 41.671 / 40.001초, 0.6.8 **39.499 / 39.938초**였으며 NPU 호스트 어댑터는 27.107 / 25.384 → **25.311 / 25.371초**였습니다. NPU 실행 모델 캐시를 재사용했고, 버전마다 두 번씩 같은 두 CPU 코어·4GiB 작업 한도를 적용했습니다. 외부 부하 기준은 통과하지 못했으므로 현재 데스크톱 부하에서의 관측이며, 낮은 부하·휴대폰·일반 사진 전체의 성능 보장이 아닙니다.
+
+NPU 처리 단계 전용 커밋은 801.03 → 746.42MiB, 같은 시점의 전용 커밋+WDDM 합계는 905.61 → 853.52MiB였습니다. 전체 흐름 전용 피크는 **증가했습니다**(NPU 측정 845.46 → 940.98MiB, 웹 854.37 → 903.29MiB). 더 큰 일시 피크는 네이티브 초기화 전 분석 단계에서 관측됐으며, 차이의 원인은 미해결입니다. 전체 앱 RAM 감소를 입증한 결과는 아닙니다. 전용 커밋은 상주 RAM과 다르고 WDDM 합계는 공유 매핑을 중복 계산할 수 있으며 DSP·펌웨어 메모리는 직접 측정하지 못했습니다. 원래 출시 판정 기준은 실패로 유지했습니다.
+
+검증된 RGBA8 GPU 입력으로 워커 전송은 3분의 1, GPU 업로드는 4분의 1로 줄였습니다. 기존 수치 검사를 통과하지 못하면 FP32 입력을 유지합니다. 모든 소비자가 사용한 출력 버퍼를 즉시 회수하고 NPU 디코딩의 Blob 복사와 압축 입력 크기를 제한했습니다. Android 코덱은 중복 바이트 배열 없이 float 비트를 재배열합니다. 신경망 그래프·원본 가중치·256픽셀 필드·겹침·필름 레시피·출력 해상도는 유지했습니다. 60개 고정 GPU 회귀 텐서와 전체 사진 JPEG는 0.6.7과 바이트가 같습니다. 기존 화질 기준, 단위·계약 테스트 273개, 타입 검사, 실제 JVM 코덱 테스트 1개를 통과했습니다. 재사용한 공학 회귀 자료이므로 독립적인 사진 일반화 검증으로 해석할 수 없습니다.
+
+빠른 512픽셀 필드는 디테일·노이즈·깨끗한 사진 기준을 통과하지 못해 제외했습니다. 느린 묶음 처리·패킹·검증되지 않은 INT8 가중치 실험도 적용하지 않았고 화질 기준을 낮추지 않았습니다. 실제 Android/iPhone 권한·설치·실행·NPU RAM·발열·장시간 배치는 미검증입니다. Windows QNN 어댑터는 Android Kotlin을 대체한 호스트 시험이며, 일반 브라우저에 네이티브 NPU 연결을 추가한 결과가 아닙니다. 모델 내용 해시는 유지해 편집기 업데이트만으로 모델 재다운로드를 요구하지 않습니다.
 
 ## 0.6.7 네이티브 NPU 미리보기
 

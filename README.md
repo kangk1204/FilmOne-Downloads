@@ -4,13 +4,23 @@ English · [한국어](README.ko.md)
 
 Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.7 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.7/FilmOne-0.6.7-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.7)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.8 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.8/FilmOne-0.6.8-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.8)
 
 No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-<img src="assets/FilmOne-0.6.7-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.7 APK">
+<img src="assets/FilmOne-0.6.8-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.8 APK">
 
-[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.7/FilmOne-0.6.7-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.8/FilmOne-0.6.8-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+## 0.6.8: bounded denoising buffers and direct GPU byte input
+
+The **30-second standalone web target remains unmet**. Same-host ABBA observations for the same original-resolution 4000×3000 noisy photo and JPEG 95 were 41.671 / 40.001 seconds for 0.6.7 and **39.499 / 39.938 seconds for 0.6.8 on web GPU. Native NPU host-adapter saves were 27.107 / 25.384 → **25.311 / 25.371 seconds** with verified compiled-context reuse. Each sequence has two repeats per version, the same two CPU cores and 4GiB job cap. External-load qualification failed; these are observations under current desktop load, not a qualified quiet-host, phone or population speed result.
+
+NPU processing private commitment was 801.03 → 746.42MiB; its same-sample private-plus-WDDM proxy was 905.61 → 853.52MiB. Whole-run sampled private peaks **increased** (845.46 → 940.98MiB for the NPU sequence and 854.37 → 903.29MiB for web). Peak-phase records locate the larger transient peaks before native initialization; the reason for the different analysis peaks is unresolved. Overall application RAM reduction is not established. Private commitment is not resident RAM, the WDDM sum can double-count mappings, and native DSP/firmware memory is unmeasured. Original shipping gates remain failed.
+
+GPU input tiles now use verified RGBA8 uploads, reducing worker input bytes threefold and GPU upload bytes fourfold. Devices failing the unchanged numerical probe retain FP32 input. Completed output buffers retire after all consumers finish; NPU decoding avoids Blob snapshots and bounds compressed input pulls. Android shuffles float bits without a duplicate interleaved buffer. The graph, source weights, 256-pixel neural fields, overlap, film recipe and output resolution are unchanged. All 60 frozen GPU regression tensor files and full-photo JPEGs match 0.6.7 byte-for-byte. The unchanged photographic gates, 273 unit/contract tests, TypeScript checks and one real JVM codec test passed. These reused engineering fixtures do not establish independent photographic generalization.
+
+A faster 512-pixel neural context failed detail/noise/clean quality gates and was rejected. Slower batching, packed arithmetic and unqualified INT8 weight experiments are also excluded. No quality threshold was relaxed. Physical Android/iPhone permissions, installation/runtime, NPU RAM, thermal behavior and sustained batch performance remain unverified. The Windows QNN adapter substitutes Android Kotlin; the standalone browser has no native NPU bridge. Model assets retain their content hashes, so this editor update does not require a model refresh.
 
 ## Native NPU preview in 0.6.7
 
