@@ -4,13 +4,25 @@ English · [한국어](README.ko.md)
 
 Choose one photo or a folder. FilmOne recognizes each photo's scene, chooses a film-inspired look, reduces noise when needed, and saves a new JPEG copy. Photos are processed on your device.
 
-**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.8 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.8/FilmOne-0.6.8-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.8)
+**[Download page](https://kangk1204.github.io/FilmOne-Downloads/)** · **[Download 0.6.9 APK](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.9/FilmOne-0.6.9-preview.apk)** · [Release notes](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.9)
 
 No GitHub login is required. This repository contains downloads and documentation; the application source remains private.
 
-<img src="assets/FilmOne-0.6.8-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.8 APK">
+<img src="assets/FilmOne-0.6.9-download-qr.png" width="280" height="280" alt="Scan to download FilmOne 0.6.9 APK">
 
-[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.8/FilmOne-0.6.8-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+[Save QR code](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.9/FilmOne-0.6.9-download-qr.png) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)
+
+## 0.6.9: bounded scene-model loading
+
+**The standalone web 30-second target remains unmet.** Original-resolution 4000×3000 JPEG 95 saves took 37.859 / 37.447 seconds in 0.6.8 and **38.220 / 37.714 seconds** in 0.6.9. Native NPU host-adapter saves took 25.915 / 25.499 → **25.563 / 25.759 seconds**. Each fixed ABBA sequence used two repeats per version, fresh browser profiles, the same two CPU cores and 4GiB job cap, with no concurrent build or benchmark. The original external-load/calibration qualification **failed for web and failed for NPU**. Failed gates remain failed; these are one-PC results, not phone or population estimates.
+
+Whole-flow sampled private commitment was 928.51 → 836.54MiB on the NPU sequence and 1067.84 → 808.15MiB on web. NPU processing private commitment was 777.06 → 773.29MiB. The separate CPU job high-water mark was 1378.78 → 1182.24MiB; it includes the benchmark controller/proxy. Private commitment is not resident RAM. WDDM sums can double-count mappings, and DSP/firmware physical memory is unmeasured. Sampling was increased to a requested 250ms on both versions; the earlier 941MiB two-second observation is not used as the matched baseline.
+
+The lifetime renderer private-commit peak was 914.20 → 616.97MiB; the sum of per-process lifetime peaks was 1263.95 → 968.50MiB. That sum is a nonsimultaneous upper bound. Both were added because even 250ms sampling missed short peaks.
+
+The FP32 scene model now moves in verified 2MiB blocks, avoiding a second whole-model JavaScript array. WASM reserves at most 8MiB of growth slack rather than 96MiB and allocates the model only after the first block is ready. Before copying the weights, it grows the heap for the model plus 32MiB of fixed-shape activation capacity, then frees the provisional block for reuse. This prevents a later growth from temporarily duplicating the loaded model; actual real-photo traces show no growth after model creation. The mobile asset bridge pauses its producer in 768KiB windows. High-confidence people retain the existing person-priority decision without loading the unnecessary scene model. These changes address allocation timing and overlapping lifetimes; no denoiser weights, neural fields, overlap, film math or image dimensions changed. Model content hashes and cache keys are unchanged.
+
+All 289 unit/contract tests and both TypeScript checks passed. Eight existing source-verified photos have exactly equal scene scores, recipes and saved JPEGs; the paired 12MP JPEGs also match exactly within each backend. Existing neural quality evidence is reused only for identical source/model hashes, not presented as a fresh photographic study. Faster overlapping analysis/GPU execution increased whole-flow memory and was rejected; reduced tile overlap failed quality gates and was also rejected. Physical Android/iPhone execution, permissions, speed, thermal stability and actual NPU RAM remain unverified. This is an explicitly limited preview.
 
 ## 0.6.8: bounded denoising buffers and direct GPU byte input
 

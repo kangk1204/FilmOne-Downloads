@@ -4,13 +4,25 @@
 
 사진 한 장 또는 폴더를 선택하면 사진마다 장면을 인식해 필름을 고르고, 필요한 경우에만 노이즈를 줄인 뒤 새 JPEG 사본으로 저장합니다. 사진은 기기 안에서 처리합니다.
 
-**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.8 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.8/FilmOne-0.6.8-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.8)
+**[공개 다운로드 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko)** · **[0.6.9 APK 바로 다운로드](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.9/FilmOne-0.6.9-preview.apk)** · [릴리스 안내](https://github.com/kangk1204/FilmOne-Downloads/releases/tag/v0.6.9)
 
 GitHub 로그인이 필요하지 않습니다. 이 저장소에는 다운로드 파일과 문서만 공개하며 앱 소스는 비공개로 유지합니다.
 
-<img src="assets/FilmOne-0.6.8-download-qr.png" width="280" height="280" alt="FilmOne 0.6.8 APK 다운로드 QR">
+<img src="assets/FilmOne-0.6.9-download-qr.png" width="280" height="280" alt="FilmOne 0.6.9 APK 다운로드 QR">
 
-[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.8/FilmOne-0.6.8-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+[QR 코드 저장](https://github.com/kangk1204/FilmOne-Downloads/releases/download/v0.6.9/FilmOne-0.6.9-download-qr.png) · [한국어 페이지](https://kangk1204.github.io/FilmOne-Downloads/?lang=ko) · [English page](https://kangk1204.github.io/FilmOne-Downloads/?lang=en)
+
+## 0.6.9: 장면 모델 전송과 메모리 할당 제한
+
+**일반 웹의 30초 목표는 아직 미달입니다.** 원본 해상도 4000×3000·JPEG 95 저장은 0.6.8 37.859 / 37.447초, 0.6.9 **38.220 / 37.714초**였습니다. NPU 호스트 어댑터는 25.915 / 25.499 → **25.563 / 25.759초**였습니다. 고정 ABBA 순서로 버전마다 두 번씩 새 브라우저 프로필·같은 두 CPU 코어·4GiB 작업 한도를 적용했고 빌드나 다른 벤치마크를 병행하지 않았습니다. 기존 외부 부하·보정 실행 검사 판정은 웹 **failed**, NPU **failed**입니다. 실패한 기준은 실패로 유지합니다. 한 PC의 결과이며 휴대폰이나 전체 사진의 속도 보장이 아닙니다.
+
+전체 흐름의 표본 전용 커밋은 NPU 측정에서 928.51 → 836.54MiB, 웹에서 1067.84 → 808.15MiB였습니다. NPU 처리 단계 전용 커밋은 777.06 → 773.29MiB, 별도 CPU 작업 전체 최고치는 1378.78 → 1182.24MiB였습니다. 작업 최고치는 측정 제어·프록시 프로세스도 포함합니다. 전용 커밋은 상주 RAM과 다르고 WDDM 합계는 공유 매핑을 중복 계산할 수 있으며 DSP·펌웨어의 실제 메모리는 미측정입니다. 두 버전 모두 표본 간격을 요청값 250ms로 맞췄고, 이전 2초 간격의 941MiB 관측치를 직접 비교 기준으로 삼지 않았습니다.
+
+렌더러의 OS 수명 전체 전용 커밋 최고치는 914.20 → 616.97MiB, 프로세스별 최고치의 합은 1263.95 → 968.50MiB였습니다. 후자는 서로 다른 시점의 값을 더한 상한이며 동시 사용량이 아닙니다. 250ms 표본도 놓친 순간 피크를 확인하기 위해 추가한 지표입니다.
+
+FP32 장면 모델을 검증된 2MiB 블록으로 전달해 모델 전체 JavaScript 배열의 중복 할당을 없앴습니다. WASM 여유 증가분은 96MiB에서 8MiB로 제한하고 첫 블록 준비 후에 모델 공간을 확보합니다. 가중치를 복사하기 전에 모델과 고정 입력의 활성화 공간 32MiB에 맞춰 힙을 먼저 키우고 임시 블록을 해제해 재사용합니다. 큰 모델을 담은 뒤 다시 늘리며 순간적으로 복사되는 구간을 피했고, 실제 사진 검사에서 모델 생성 뒤 추가 증가가 없음을 확인했습니다. 모바일 전송은 768KiB 단위로 생산자를 대기시킵니다. 확실한 인물은 기존 인물 우선 규칙을 유지하면서 불필요한 장면 모델 로딩을 생략합니다. 할당 시점과 버퍼 수명을 수정했으며 노이즈 제거 가중치·필드·겹침·보정 수식·사진 크기·모델 내용 해시·캐시 키는 유지했습니다.
+
+단위·계약 테스트 289개와 두 플랫폼 타입 검사를 통과했습니다. 기존 출처 확인 사진 8장의 장면 점수·레시피·JPEG와 반복 측정의 12MP JPEG는 이전 버전과 정확히 같습니다. 동일한 코드·모델 해시에 한해 기존 신경망 화질 자료를 재사용하며 새 사진 연구로 표시하지 않습니다. 분석·GPU 병렬 실행은 전체 메모리가 늘어 제외했고, 타일 겹침 축소는 화질 기준을 통과하지 못해 제외했습니다. 실제 Android/iPhone 실행·권한·속도·발열·NPU RAM은 미검증인 미리보기입니다.
 
 ## 0.6.8: 노이즈 제거 버퍼 회수와 GPU 바이트 입력
 
